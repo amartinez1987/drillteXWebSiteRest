@@ -88,4 +88,56 @@ public class Productos {
         }
         return lstprm;
     }
+
+    @GET
+    @Path("/getListaProductosNombre")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<ProductosModel> getListaProductosNombre(@QueryParam("nombreProducto") String nombreProducto) {
+        if (nombreProducto == null) {
+            nombreProducto = "";
+        }
+        DaoProductos dpr = new DaoProductos();
+        List<ProductosModel> lstprm = new LinkedList<ProductosModel>();
+        try {
+            List<Model.Productos> lstpr = dpr.getListProductos();
+            if (nombreProducto != "") 
+            {                
+                for (Iterator<Model.Productos> i = lstpr.iterator(); i.hasNext();) {
+                    Model.Productos p = i.next();
+                    if(p.getNombreProducto().toLowerCase().contains(nombreProducto.toLowerCase()) )
+                    {
+                        lstprm.add(new ProductosModel(p));
+                    }
+                }
+            }else
+            {
+                for (Iterator<Model.Productos> i = lstpr.iterator(); i.hasNext();) {
+                    Model.Productos p = i.next();
+                    lstprm.add(new ProductosModel(p));
+                }
+            }
+        } catch (Exception Ex) {
+        }
+        return lstprm;
+    }
+    
+    @POST
+    @Path("/deleteProductos")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ProductosModel deleteProductos(ProductosModel model) {
+        DaoProductos dpr = new DaoProductos();
+        try {
+            dpr.deleteProductos(model.getModel());
+        } catch (SQLException sqlEx) {
+            model.setErrorRegistro(sqlEx.getMessage());
+        } catch (ClassNotFoundException CNFEx) {
+            model.setErrorRegistro(CNFEx.getMessage());
+        } catch (Exception Ex) {
+            model.setErrorRegistro(Ex.getMessage());
+        }
+        return model;
+    }
+
 }

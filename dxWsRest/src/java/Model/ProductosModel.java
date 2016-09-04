@@ -42,7 +42,7 @@ public class ProductosModel {
         return this.model.getIdUsuario();
     }
 
-    private String errorRegistro;
+    private String errorRegistro = "";
 
     public void setErrorRegistro(String errorRegistro) {
         this.errorRegistro = errorRegistro;
