@@ -16,7 +16,7 @@ public class DaoMaestrosaldos {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
         int id = 0;
         String sqlQuery = " insert into Maestrosaldos(nombreSaldoBD,idUsuario) Values (?,?)";
-        PreparedStatement ps = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);        
+        PreparedStatement ps = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, ma.getNombreSaldoBD());
         ps.setInt(2, ma.getIdUsuario());
         ps.executeUpdate();
@@ -88,5 +88,16 @@ public class DaoMaestrosaldos {
 
     public void desactivarMaestrosaldos(Maestrosaldos ma, int idUsuario) {
 
+    }
+
+    @SuppressWarnings("ConvertToTryWithResources")
+    public void deleteMaestrosaldos(Maestrosaldos ma) throws ClassNotFoundException, SQLException {
+        Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
+        String sqlQuery = "delete from  Maestrosaldos  where id = ? ";
+        PreparedStatement ps = con.prepareStatement(sqlQuery);
+        ps.setInt(1, ma.getId());
+        ps.executeUpdate();
+        ps.close();
+        con.close();
     }
 }

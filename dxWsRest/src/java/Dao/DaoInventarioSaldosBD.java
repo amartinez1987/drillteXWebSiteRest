@@ -1,6 +1,8 @@
 package Dao;
 
 import Model.InventarioSaldosBD;
+import Model.Maestrosaldos;
+import Model.Productos;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -62,12 +64,26 @@ public class DaoInventarioSaldosBD {
     @SuppressWarnings("ConvertToTryWithResources")
     public List<InventarioSaldosBD> getListInventarioSaldosBD() throws ClassNotFoundException, SQLException {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
-        String sqlQuery = " Select id,idProducto,idMaestroSaldo,cantidadSaldo,fechaRegistro,idUsuario,cantidadDescontar from  InventarioSaldosBD";
+        String sqlQuery = " Select isbd.id\n" +
+                          "      ,isbd.idProducto\n" +
+                          "      ,isbd.idMaestroSaldo\n" +
+                          "      ,isbd.cantidadSaldo\n" +
+                          "      ,isbd.fechaRegistro\n" +
+                          "      ,isbd.idUsuario\n" +
+                          "      ,isbd.cantidadDescontar \n" +
+                          "      ,p.nombreProducto\n" +
+                          "      ,p.numeroReferencia\n" +                          
+                          "      ,ms.nombreSaldoBD\n" +                          
+                          " from  InventarioSaldosBD isbd\n" +
+                          "    inner join productos p on isbd.idProducto = p.id\n" +
+                          "    inner join maestrosaldos ms on isbd.idMaestroSaldo = ms.id ";
         PreparedStatement ps = con.prepareStatement(sqlQuery);
         ResultSet rs = ps.executeQuery();
         List<InventarioSaldosBD> lstin = new LinkedList<InventarioSaldosBD>();
         while (rs.next()) {
             InventarioSaldosBD in = new InventarioSaldosBD();
+            Productos p = new Productos();
+            Maestrosaldos ms = new Maestrosaldos();
             in.setId(rs.getInt("id"));
             in.setIdProducto(rs.getInt("idProducto"));
             in.setIdMaestroSaldo(rs.getInt("idMaestroSaldo"));
@@ -75,6 +91,18 @@ public class DaoInventarioSaldosBD {
             in.setFechaRegistro(rs.getDate("fechaRegistro"));
             in.setIdUsuario(rs.getInt("idUsuario"));
             in.setCantidadDescontar(rs.getInt("cantidadDescontar"));
+            
+            p.setId(rs.getInt("idProducto"));
+            p.setNumeroReferencia(rs.getString("numeroReferencia"));
+            p.setNombreProducto(rs.getString("nombreProducto"));
+            p.setIdUsuario(rs.getInt("idUsuario"));
+            
+            ms.setId(rs.getInt("idMaestroSaldo"));
+            ms.setNombreSaldoBD(rs.getString("nombreSaldoBD"));
+            ms.setIdUsuario(rs.getInt("idUsuario"));
+            
+            in.setProductos(p);
+            in.setMaestrosaldos(ms);
             lstin.add(in);
         }
         rs.close();

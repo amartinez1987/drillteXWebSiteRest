@@ -68,8 +68,33 @@ public class InventarioSaldosBDModel {
     public int getCantidadDescontar() {
         return this.model.getCantidadDescontar();
     }
-
-    private String errorRegistro;
+    
+    private Productos productos;
+    
+    public void setProductos(Productos productos)
+    {
+            this.productos = productos;
+    }
+    
+    @XmlElement
+    public Productos getProductos()
+    {
+        return this.productos;
+    }
+    
+    private Maestrosaldos maestrosaldos;
+    
+    public void setMaestrosaldos(Maestrosaldos maestrosaldos)
+    {
+            this.maestrosaldos = maestrosaldos;
+    }
+    
+    @XmlElement
+    public Maestrosaldos getMaestrosaldos()
+    {
+        return this.maestrosaldos;
+    }
+    private String errorRegistro ="";
 
     public void setErrorRegistro(String errorRegistro) {
         this.errorRegistro = errorRegistro;
@@ -84,7 +109,7 @@ public class InventarioSaldosBDModel {
         this.model = model;
     }
     
-     public InventarioSaldosBDModel() {
+    public InventarioSaldosBDModel() {
         
     }
 

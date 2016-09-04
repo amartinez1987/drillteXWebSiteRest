@@ -1,7 +1,7 @@
 package ServicesRest;
 
 import Dao.DaoInventarioSaldosBD;
-import Dao.DaoProductos;
+import Model.Filters;
 import Model.InventarioSaldosBDModel;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -138,6 +138,26 @@ public class InventarioSaldosBD {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<InventarioSaldosBDModel> getListaInventarioSaldosBD() {
+        DaoInventarioSaldosBD din = new DaoInventarioSaldosBD();
+        List<InventarioSaldosBDModel> lstinm = new LinkedList<InventarioSaldosBDModel>();
+        try {
+            List<Model.InventarioSaldosBD> lstin = din.getListInventarioSaldosBD();
+            for (Iterator<Model.InventarioSaldosBD> i = lstin.iterator(); i.hasNext();) {
+                lstinm.add(new InventarioSaldosBDModel(i.next()));
+            }
+        } catch (Exception Ex) {
+        }
+        return lstinm;
+    }
+    
+    @POST
+    @Path("/getListaInventarioSaldosBDFilters")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<InventarioSaldosBDModel> getListaInventarioSaldosBDFilters(Filters filters ) 
+    {
+        
+        
         DaoInventarioSaldosBD din = new DaoInventarioSaldosBD();
         List<InventarioSaldosBDModel> lstinm = new LinkedList<InventarioSaldosBDModel>();
         try {

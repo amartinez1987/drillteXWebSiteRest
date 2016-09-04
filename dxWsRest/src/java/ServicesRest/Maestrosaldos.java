@@ -42,11 +42,10 @@ public class Maestrosaldos {
     @Consumes(MediaType.APPLICATION_JSON)
     public MaestrosaldosModel addMaestrosaldos(MaestrosaldosModel model) {
         DaoMaestrosaldos dma = new DaoMaestrosaldos();
-        if(model.getNombreSaldoBD() =="")
-        {
+        if (model.getNombreSaldoBD() == "") {
             model.setErrorRegistro("Digite el nombre del saldo");
-        }        
-       
+        }
+
         try {
             dma.insertMaestrosaldos(model.getModel());
         } catch (SQLException sqlEx) {
@@ -93,4 +92,56 @@ public class Maestrosaldos {
         }
         return lstmam;
     }
+
+    @GET
+    @Path("/getListaMaestrosaldosNombre")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<MaestrosaldosModel> getListaMaestrosaldos(@QueryParam("nombre") String nombre) {
+        if (nombre == null) {
+            nombre = "";
+        }
+        DaoMaestrosaldos dma = new DaoMaestrosaldos();
+        List<MaestrosaldosModel> lstmam = new LinkedList<MaestrosaldosModel>();
+        try {
+            List<Model.Maestrosaldos> lstma = dma.getListMaestrosaldos();            
+            if(!nombre.equals(""))
+            {
+                for (Iterator<Model.Maestrosaldos> i = lstma.iterator(); i.hasNext();) {
+                    Model.Maestrosaldos ms = i.next();
+                    if(ms.getNombreSaldoBD().toLowerCase().contains(nombre))
+                    {
+                        lstmam.add(new MaestrosaldosModel(i.next()));
+                    }                    
+                }
+            }else
+            {            
+                for (Iterator<Model.Maestrosaldos> i = lstma.iterator(); i.hasNext();) {
+                    lstmam.add(new MaestrosaldosModel(i.next()));
+                }
+            }
+            
+        } catch (Exception Ex) {
+        }
+        return lstmam;
+    }
+    
+    @POST
+    @Path("/deleteMaestrosaldos")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public MaestrosaldosModel deleteMaestrosaldos(MaestrosaldosModel model) {
+        DaoMaestrosaldos dma = new DaoMaestrosaldos();
+        try {
+            dma.deleteMaestrosaldos(model.getModel());
+        } catch (SQLException sqlEx) {
+            model.setErrorRegistro(sqlEx.getMessage());
+        } catch (ClassNotFoundException CNFEx) {
+            model.setErrorRegistro(CNFEx.getMessage());
+        } catch (Exception Ex) {
+            model.setErrorRegistro(Ex.getMessage());
+        }
+        return model;
+    }
+
 }

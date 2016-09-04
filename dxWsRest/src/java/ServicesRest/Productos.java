@@ -101,7 +101,7 @@ public class Productos {
         List<ProductosModel> lstprm = new LinkedList<ProductosModel>();
         try {
             List<Model.Productos> lstpr = dpr.getListProductos();
-            if (nombreProducto != "") 
+            if (!nombreProducto.equals("")) 
             {                
                 for (Iterator<Model.Productos> i = lstpr.iterator(); i.hasNext();) {
                     Model.Productos p = i.next();

@@ -82,5 +82,31 @@ public class InventarioSaldosBD {
     public int getCantidadDescontar() {
         return this.cantidadDescontar;
     }
+    
+    private Productos productos;
+    
+    public void setProductos(Productos productos)
+    {
+            this.productos = productos;
+    }
+    
+    @XmlElement
+    public Productos getProductos()
+    {
+        return this.productos;
+    }
+    
+    private Maestrosaldos maestrosaldos;
+    
+    public void setMaestrosaldos(Maestrosaldos maestrosaldos)
+    {
+            this.maestrosaldos = maestrosaldos;
+    }
+    
+    @XmlElement
+    public Maestrosaldos getMaestrosaldos()
+    {
+        return this.maestrosaldos;
+    }
 
 }
