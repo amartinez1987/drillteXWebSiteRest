@@ -47,11 +47,7 @@ public class InventarioSaldosBD {
         DaoInventarioSaldosBD din = new DaoInventarioSaldosBD();
 
         try {
-            if (model.getCantidadSaldo() < 1) {
-                model.setErrorRegistro("Digite la cantidad del saldo consumido");
-                return model;
-            }
-
+            
             if (model.getIdMaestroSaldo() == 0) {
                 model.setErrorRegistro("Seleccione un saldo a asociar la cantidad a consumir");
                 return model;
@@ -62,10 +58,7 @@ public class InventarioSaldosBD {
                 return model;
             }
 
-            if (model.getCantidadDescontar() > model.getCantidadSaldo()) {
-                model.setErrorRegistro("la cantidad en bodega de este producto es menor a la que se va descontar");
-                return model;
-            }
+           
 
             List<Model.InventarioSaldosBD> lstin = din.getListInventarioSaldosBD();
             for (Iterator<Model.InventarioSaldosBD> i = lstin.iterator(); i.hasNext();) {
@@ -97,10 +90,7 @@ public class InventarioSaldosBD {
     public InventarioSaldosBDModel updateInventarioSaldosBD(InventarioSaldosBDModel model) {
         DaoInventarioSaldosBD din = new DaoInventarioSaldosBD();
         try {
-            if (model.getCantidadSaldo() < 1) {
-                model.setErrorRegistro("Digite la cantidad del saldo consumido");
-                return model;
-            }
+           
 
             if (model.getIdMaestroSaldo() == 0) {
                 model.setErrorRegistro("Seleccione un saldo a asociar la cantidad a consumir");
@@ -115,10 +105,7 @@ public class InventarioSaldosBD {
             Model.InventarioSaldosBD isbdA = din.getInventarioSaldosBD(model.getId());
             model.setCantidadDescontar(isbdA.getCantidadDescontar()+model.getCantidadDescontar());
             
-            if (model.getCantidadDescontar() > model.getCantidadSaldo()) {
-                model.setErrorRegistro("la cantidad en bodega de este producto es menor a la que se va descontar");
-                return model;
-            }
+            
             
            
 

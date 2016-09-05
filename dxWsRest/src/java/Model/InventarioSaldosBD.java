@@ -39,17 +39,6 @@ public class InventarioSaldosBD {
         return this.idMaestroSaldo;
     }
 
-    private int cantidadSaldo = 0;
-
-    public void setCantidadSaldo(int cantidadSaldo) {
-        this.cantidadSaldo = cantidadSaldo;
-    }
-
-    @XmlElement
-    public int getCantidadSaldo() {
-        return this.cantidadSaldo;
-    }
-
     private Date fechaRegistro = new Date();
 
     public void setFechaRegistro(Date fechaRegistro) {

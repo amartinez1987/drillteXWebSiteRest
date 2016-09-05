@@ -32,16 +32,7 @@ public class InventarioSaldosBDModel {
     public int getIdMaestroSaldo() {
         return this.model.getIdMaestroSaldo();
     }
-
-    public void setCantidadSaldo(int cantidadSaldo) {
-        this.model.setCantidadSaldo(cantidadSaldo);
-    }
-
-    @XmlElement
-    public int getCantidadSaldo() {
-        return this.model.getCantidadSaldo();
-    }
-
+    
     public void setFechaRegistro(Date fechaRegistro) {
         this.model.setFechaRegistro(fechaRegistro);
     }

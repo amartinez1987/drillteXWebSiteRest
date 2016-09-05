@@ -39,6 +39,17 @@ public class Productos {
         return this.numeroReferencia;
     }
 
+    private int cantidadBD = 0;    
+
+    public void setCantidadBD(int cantidadBD) {
+        this.cantidadBD = cantidadBD;
+    }
+    
+    @XmlElement
+    public int getCantidadBD() {
+        return this.cantidadBD;
+    }
+    
     private int idUsuario = 0;
 
     public void setIdUsuario(int idUsuario) {

@@ -18,15 +18,14 @@ public class DaoInventarioSaldosBD {
     public int insertInventarioSaldosBD(InventarioSaldosBD in) throws ClassNotFoundException, SQLException {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
         int id = 0;
-        String sqlQuery = " insert into InventarioSaldosBD(idProducto,idMaestroSaldo,cantidadSaldo,fechaRegistro,idUsuario,cantidadDescontar) Values (?,?,?,?,?,?)";
+        String sqlQuery = " insert into InventarioSaldosBD(idProducto,idMaestroSaldo,fechaRegistro,idUsuario,cantidadDescontar) Values (?,?,?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
 
         ps.setInt(1, in.getIdProducto());
-        ps.setInt(2, in.getIdMaestroSaldo());
-        ps.setInt(3, in.getCantidadSaldo());
-        ps.setDate(4, new Date(in.getFechaRegistro().getYear(), in.getFechaRegistro().getMonth(), in.getFechaRegistro().getDate()));
-        ps.setInt(5, in.getIdUsuario());
-        ps.setInt(6, in.getCantidadDescontar());
+        ps.setInt(2, in.getIdMaestroSaldo());       
+        ps.setDate(3, new Date(in.getFechaRegistro().getYear(), in.getFechaRegistro().getMonth(), in.getFechaRegistro().getDate()));
+        ps.setInt(4, in.getIdUsuario());
+        ps.setInt(5, in.getCantidadDescontar());
         ps.executeUpdate();
         ResultSet rs = ps.getGeneratedKeys();
         if (rs.next()) {
@@ -41,7 +40,7 @@ public class DaoInventarioSaldosBD {
     @SuppressWarnings("ConvertToTryWithResources")
     public InventarioSaldosBD getInventarioSaldosBD(int id) throws ClassNotFoundException, SQLException {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
-        String sqlQuery = " Select id,idProducto,idMaestroSaldo,cantidadSaldo,fechaRegistro,idUsuario,cantidadDescontar from  InventarioSaldosBD where id = ? ";
+        String sqlQuery = " Select id,idProducto,idMaestroSaldo,fechaRegistro,idUsuario,cantidadDescontar from  InventarioSaldosBD where id = ? ";
         PreparedStatement ps = con.prepareStatement(sqlQuery);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
@@ -49,8 +48,7 @@ public class DaoInventarioSaldosBD {
         while (rs.next()) {
             in.setId(rs.getInt("id"));
             in.setIdProducto(rs.getInt("idProducto"));
-            in.setIdMaestroSaldo(rs.getInt("idMaestroSaldo"));
-            in.setCantidadSaldo(rs.getInt("cantidadSaldo"));
+            in.setIdMaestroSaldo(rs.getInt("idMaestroSaldo"));            
             in.setFechaRegistro(rs.getDate("fechaRegistro"));
             in.setIdUsuario(rs.getInt("idUsuario"));
             in.setCantidadDescontar(rs.getInt("cantidadDescontar"));
@@ -66,13 +64,13 @@ public class DaoInventarioSaldosBD {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
         String sqlQuery = " Select isbd.id " +
                           "      ,isbd.idProducto " +
-                          "      ,isbd.idMaestroSaldo " +
-                          "      ,isbd.cantidadSaldo " +
+                          "      ,isbd.idMaestroSaldo " +                          
                           "      ,isbd.fechaRegistro " +
                           "      ,isbd.idUsuario " +
                           "      ,isbd.cantidadDescontar " +
                           "      ,p.nombreProducto " +
-                          "      ,p.numeroReferencia " +                          
+                          "      ,p.numeroReferencia " +
+                          "      ,p.cantidadBD " +
                           "      ,ms.nombreSaldoBD " +                          
                           " from  InventarioSaldosBD isbd " +
                           "    inner join productos p on isbd.idProducto = p.id " +
@@ -86,8 +84,7 @@ public class DaoInventarioSaldosBD {
             Maestrosaldos ms = new Maestrosaldos();
             in.setId(rs.getInt("id"));
             in.setIdProducto(rs.getInt("idProducto"));
-            in.setIdMaestroSaldo(rs.getInt("idMaestroSaldo"));
-            in.setCantidadSaldo(rs.getInt("cantidadSaldo"));
+            in.setIdMaestroSaldo(rs.getInt("idMaestroSaldo"));          
             in.setFechaRegistro(rs.getDate("fechaRegistro"));
             in.setIdUsuario(rs.getInt("idUsuario"));
             in.setCantidadDescontar(rs.getInt("cantidadDescontar"));
@@ -95,6 +92,7 @@ public class DaoInventarioSaldosBD {
             p.setId(rs.getInt("idProducto"));
             p.setNumeroReferencia(rs.getString("numeroReferencia"));
             p.setNombreProducto(rs.getString("nombreProducto"));
+            p.setCantidadBD(rs.getInt("cantidadBD"));
             p.setIdUsuario(rs.getInt("idUsuario"));
             
             ms.setId(rs.getInt("idMaestroSaldo"));
@@ -114,11 +112,10 @@ public class DaoInventarioSaldosBD {
     @SuppressWarnings("ConvertToTryWithResources")
     public void updateInventarioSaldosBD(InventarioSaldosBD in) throws ClassNotFoundException, SQLException {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
-        String sqlQuery = "update InventarioSaldosBD set idProducto = ?,idMaestroSaldo = ?,cantidadSaldo = ?,fechaRegistro = ?,idUsuario = ?,cantidadDescontar = ? where id = ? ";
+        String sqlQuery = "update InventarioSaldosBD set idProducto = ?,idMaestroSaldo = ?,fechaRegistro = ?,idUsuario = ?,cantidadDescontar = ? where id = ? ";
         PreparedStatement ps = con.prepareStatement(sqlQuery);
         ps.setInt(1, in.getIdProducto());
-        ps.setInt(2, in.getIdMaestroSaldo());
-        ps.setInt(3, in.getCantidadSaldo());
+        ps.setInt(2, in.getIdMaestroSaldo());       
         ps.setDate(4, new Date(in.getFechaRegistro().getYear(), in.getFechaRegistro().getMonth(), in.getFechaRegistro().getDate()));
         ps.setInt(5, in.getIdUsuario());
         ps.setInt(6, in.getCantidadDescontar());

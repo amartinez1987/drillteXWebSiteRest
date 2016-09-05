@@ -33,6 +33,15 @@ public class ProductosModel {
         return this.model.getNumeroReferencia();
     }
 
+    public void setCantidadBD(int cantidadBD) {
+        this.model.setCantidadBD(cantidadBD);
+    }
+    
+    @XmlElement
+    public int getCantidadBD() {
+        return this.model.getCantidadBD();
+    }
+    
     public void setIdUsuario(int idUsuario) {
         this.model.setIdUsuario(idUsuario);
     }

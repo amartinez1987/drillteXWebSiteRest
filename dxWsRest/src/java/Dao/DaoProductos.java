@@ -16,11 +16,12 @@ public class DaoProductos {
     public int insertProductos(Productos pr) throws ClassNotFoundException, SQLException {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
         int id = 0;
-        String sqlQuery = " insert into Productos(nombreProducto,numeroReferencia,idUsuario) Values (?,?,?)";
+        String sqlQuery = " insert into Productos(nombreProducto,numeroReferencia, cantidadBD ,idUsuario) Values (?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, pr.getNombreProducto());
         ps.setString(2, pr.getNumeroReferencia());
-        ps.setInt(3, pr.getIdUsuario());
+        ps.setInt(3, pr.getCantidadBD());
+        ps.setInt(4, pr.getIdUsuario());
         ps.executeUpdate();
         ResultSet rs = ps.getGeneratedKeys();
         if (rs.next()) {
@@ -35,7 +36,7 @@ public class DaoProductos {
     @SuppressWarnings("ConvertToTryWithResources")
     public Productos getProductos(int id) throws ClassNotFoundException, SQLException {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
-        String sqlQuery = " Select id,nombreProducto,numeroReferencia,idUsuario, from  Productos where id = ? ";
+        String sqlQuery = " Select id,nombreProducto,numeroReferencia, cantidadBD ,idUsuario from  Productos where id = ? ";
         PreparedStatement ps = con.prepareStatement(sqlQuery);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
@@ -44,6 +45,7 @@ public class DaoProductos {
             pr.setId(rs.getInt("id"));
             pr.setNombreProducto(rs.getString("nombreProducto"));
             pr.setNumeroReferencia(rs.getString("numeroReferencia"));
+            pr.setCantidadBD(rs.getInt("cantidadBD"));
             pr.setIdUsuario(rs.getInt("idUsuario"));
         }
         rs.close();
@@ -55,7 +57,7 @@ public class DaoProductos {
     @SuppressWarnings("ConvertToTryWithResources")
     public List<Productos> getListProductos() throws ClassNotFoundException, SQLException {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
-        String sqlQuery = " Select id,nombreProducto,numeroReferencia,idUsuario from  Productos";
+        String sqlQuery = " Select id,nombreProducto,numeroReferencia, cantidadBD ,idUsuario from  Productos";
         PreparedStatement ps = con.prepareStatement(sqlQuery);
         ResultSet rs = ps.executeQuery();
         List<Productos> lstpr = new LinkedList<Productos>();
@@ -64,6 +66,7 @@ public class DaoProductos {
             pr.setId(rs.getInt("id"));
             pr.setNombreProducto(rs.getString("nombreProducto"));
             pr.setNumeroReferencia(rs.getString("numeroReferencia"));
+            pr.setCantidadBD(rs.getInt("cantidadBD"));
             pr.setIdUsuario(rs.getInt("idUsuario"));
             lstpr.add(pr);
         }
@@ -76,13 +79,14 @@ public class DaoProductos {
     @SuppressWarnings("ConvertToTryWithResources")
     public void updateProductos(Productos pr) throws ClassNotFoundException, SQLException {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
-        String sqlQuery = "update Productos set nombreProducto = ?,numeroReferencia = ?,idUsuario = ? where id = ? ";
+        String sqlQuery = "update Productos set nombreProducto = ?,numeroReferencia = ?, cantidadBD = ? ,idUsuario = ? where id = ? ";
         PreparedStatement ps = con.prepareStatement(sqlQuery);
 
         ps.setString(1, pr.getNombreProducto());
-        ps.setString(2, pr.getNumeroReferencia());
-        ps.setInt(3, pr.getIdUsuario());
-        ps.setInt(4, pr.getId());
+        ps.setString(2, pr.getNumeroReferencia());        
+        ps.setInt(3, pr.getCantidadBD());
+        ps.setInt(4, pr.getIdUsuario());
+        ps.setInt(5, pr.getId());
         ps.executeUpdate();
         ps.close();
         con.close();
