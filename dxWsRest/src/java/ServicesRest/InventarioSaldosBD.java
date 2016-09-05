@@ -58,7 +58,11 @@ public class InventarioSaldosBD {
                 return model;
             }
 
-           
+            if(model.getCantidadDescontar()> model.getProductos().getCantidadBD())
+            {
+                model.setErrorRegistro("La cantidad a descontar supera la disponible por el producto");
+                return model;
+            }
 
             List<Model.InventarioSaldosBD> lstin = din.getListInventarioSaldosBD();
             for (Iterator<Model.InventarioSaldosBD> i = lstin.iterator(); i.hasNext();) {
@@ -103,12 +107,16 @@ public class InventarioSaldosBD {
             }
             
             Model.InventarioSaldosBD isbdA = din.getInventarioSaldosBD(model.getId());
+            
+            if(model.getCantidadDescontar()> model.getProductos().getCantidadBD())
+            {
+                model.setErrorRegistro("La cantidad a descontar supera la disponible por el producto");
+                return model;
+            }
+            model.getProductos().setCantidadBD(model.getProductos().getCantidadBD()- model.getCantidadDescontar());
             model.setCantidadDescontar(isbdA.getCantidadDescontar()+model.getCantidadDescontar());
+             
             
-            
-            
-           
-
             din.updateInventarioSaldosBD(model.getModel());
         } catch (SQLException sqlEx) {
             model.setErrorRegistro(sqlEx.getMessage());
