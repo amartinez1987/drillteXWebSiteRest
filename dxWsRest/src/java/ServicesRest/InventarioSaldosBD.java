@@ -1,10 +1,10 @@
 package ServicesRest;
 
 import Dao.DaoInventarioSaldosBD;
-import Model.Filters;
 import Model.InventarioSaldosBDModel;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -150,23 +150,74 @@ public class InventarioSaldosBD {
         return lstinm;
     }
     
-    @POST
+    @GET
     @Path("/getListaInventarioSaldosBDFilters")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<InventarioSaldosBDModel> getListaInventarioSaldosBDFilters(Filters filters ) 
+    public List<InventarioSaldosBDModel> getListaInventarioSaldosBDFilters(@QueryParam("periodo") String periodo
+                                                                         , @QueryParam("idProductos") int idProductos
+                                                                         , @QueryParam("idMaestroSaldo") int idMaestroSaldo) 
     {
-        
-        
         DaoInventarioSaldosBD din = new DaoInventarioSaldosBD();
         List<InventarioSaldosBDModel> lstinm = new LinkedList<InventarioSaldosBDModel>();
-        try {
-            List<Model.InventarioSaldosBD> lstin = din.getListInventarioSaldosBD();
-            for (Iterator<Model.InventarioSaldosBD> i = lstin.iterator(); i.hasNext();) {
-                lstinm.add(new InventarioSaldosBDModel(i.next()));
+        if(periodo != null && idProductos == 0 && idMaestroSaldo == 0)
+        {
+            try 
+            {
+                List<Model.InventarioSaldosBD> lstin = din.getListInventarioSaldosBD();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date dperiodo = sdf.parse(periodo);
+                for (Iterator<Model.InventarioSaldosBD> i = lstin.iterator(); i.hasNext();) 
+                {
+                    Model.InventarioSaldosBD isbd = i.next();                    
+                    if(isbd.getFechaRegistro().getYear()==dperiodo.getYear() && isbd.getFechaRegistro().getMonth()==dperiodo.getMonth())
+                    {
+                        lstinm.add(new InventarioSaldosBDModel(isbd));
+                    }
+                }
+            } catch (Exception Ex) {
             }
-        } catch (Exception Ex) {
-        }
+        }   
+        
+        if(periodo != null && idProductos != 0 && idMaestroSaldo == 0)
+        {
+            try 
+            {
+                List<Model.InventarioSaldosBD> lstin = din.getListInventarioSaldosBD();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date dperiodo = sdf.parse(periodo);
+                for (Iterator<Model.InventarioSaldosBD> i = lstin.iterator(); i.hasNext();) {
+                    Model.InventarioSaldosBD isbd = i.next();                    
+                    if(isbd.getFechaRegistro().getYear()==dperiodo.getYear() && isbd.getFechaRegistro().getMonth()==dperiodo.getMonth() &&
+                       isbd.getIdProducto() == idProductos)
+                    {
+                        lstinm.add(new InventarioSaldosBDModel(isbd));
+                    }
+                }
+            } catch (Exception Ex) {
+            }
+        }       
+        
+        if(periodo != null && idProductos != 0 && idMaestroSaldo != 0)
+        {
+            try 
+            {
+                List<Model.InventarioSaldosBD> lstin = din.getListInventarioSaldosBD();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date dperiodo = sdf.parse(periodo);
+                for (Iterator<Model.InventarioSaldosBD> i = lstin.iterator(); i.hasNext();) {
+                    Model.InventarioSaldosBD isbd = i.next();                    
+                    if(isbd.getFechaRegistro().getYear()==dperiodo.getYear() && isbd.getFechaRegistro().getMonth()==dperiodo.getMonth() &&
+                       isbd.getIdProducto() == idProductos &&
+                       isbd.getIdMaestroSaldo()== idMaestroSaldo)
+                    {
+                        lstinm.add(new InventarioSaldosBDModel(isbd));
+                    }
+                }
+            } catch (Exception Ex) {
+            }
+        }       
+        
         return lstinm;
     }
 }

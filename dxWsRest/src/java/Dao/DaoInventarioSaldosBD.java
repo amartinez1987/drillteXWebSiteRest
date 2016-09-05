@@ -64,18 +64,18 @@ public class DaoInventarioSaldosBD {
     @SuppressWarnings("ConvertToTryWithResources")
     public List<InventarioSaldosBD> getListInventarioSaldosBD() throws ClassNotFoundException, SQLException {
         Connection con = (Connection) ConnetorBD.getDriverManagerConnection();
-        String sqlQuery = " Select isbd.id\n" +
-                          "      ,isbd.idProducto\n" +
-                          "      ,isbd.idMaestroSaldo\n" +
-                          "      ,isbd.cantidadSaldo\n" +
-                          "      ,isbd.fechaRegistro\n" +
-                          "      ,isbd.idUsuario\n" +
-                          "      ,isbd.cantidadDescontar \n" +
-                          "      ,p.nombreProducto\n" +
-                          "      ,p.numeroReferencia\n" +                          
-                          "      ,ms.nombreSaldoBD\n" +                          
-                          " from  InventarioSaldosBD isbd\n" +
-                          "    inner join productos p on isbd.idProducto = p.id\n" +
+        String sqlQuery = " Select isbd.id " +
+                          "      ,isbd.idProducto " +
+                          "      ,isbd.idMaestroSaldo " +
+                          "      ,isbd.cantidadSaldo " +
+                          "      ,isbd.fechaRegistro " +
+                          "      ,isbd.idUsuario " +
+                          "      ,isbd.cantidadDescontar " +
+                          "      ,p.nombreProducto " +
+                          "      ,p.numeroReferencia " +                          
+                          "      ,ms.nombreSaldoBD " +                          
+                          " from  InventarioSaldosBD isbd " +
+                          "    inner join productos p on isbd.idProducto = p.id " +
                           "    inner join maestrosaldos ms on isbd.idMaestroSaldo = ms.id ";
         PreparedStatement ps = con.prepareStatement(sqlQuery);
         ResultSet rs = ps.executeQuery();

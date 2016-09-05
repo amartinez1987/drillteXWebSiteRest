@@ -69,30 +69,26 @@ public class InventarioSaldosBDModel {
         return this.model.getCantidadDescontar();
     }
     
-    private Productos productos;
-    
     public void setProductos(Productos productos)
     {
-            this.productos = productos;
+            this.model.setProductos( productos);
     }
     
     @XmlElement
     public Productos getProductos()
     {
-        return this.productos;
+        return this.model.getProductos();
     }
-    
-    private Maestrosaldos maestrosaldos;
     
     public void setMaestrosaldos(Maestrosaldos maestrosaldos)
     {
-            this.maestrosaldos = maestrosaldos;
+            this.model.setMaestrosaldos(maestrosaldos);
     }
     
     @XmlElement
     public Maestrosaldos getMaestrosaldos()
     {
-        return this.maestrosaldos;
+        return this.model.getMaestrosaldos();
     }
     private String errorRegistro ="";
 

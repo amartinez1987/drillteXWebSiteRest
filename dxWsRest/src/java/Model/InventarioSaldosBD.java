@@ -83,7 +83,7 @@ public class InventarioSaldosBD {
         return this.cantidadDescontar;
     }
     
-    private Productos productos;
+    private Productos productos = new Productos();
     
     public void setProductos(Productos productos)
     {
@@ -96,7 +96,7 @@ public class InventarioSaldosBD {
         return this.productos;
     }
     
-    private Maestrosaldos maestrosaldos;
+    private Maestrosaldos maestrosaldos = new Maestrosaldos();
     
     public void setMaestrosaldos(Maestrosaldos maestrosaldos)
     {
